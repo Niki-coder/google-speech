@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+mainClassName = "com.sample.kwd.KwdDaemon"
+
+archivesBaseName = "speechtotext"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+		compile 'log4j:log4j:1.2.17'
+	  compile 'commons-logging:commons-logging:1.2'
+    compile 'com.google.cloud:google-cloud-speech:0.53.0-alpha'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+}

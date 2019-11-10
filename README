@@ -1,0 +1,47 @@
+1. To build the project run
+   gradle build
+
+2. To build the project for an eclipse project run
+   gradle eclipse
+
+3. To run the project run:
+   export GOOGLE_APPLICATION_CREDENTIALS=<path to gcp credentials json file>  # see 4. below
+   gradle -q run
+
+
+Description
+===========
+1. KwdDaemon application reads the resources/config.properties file for three properties
+   audioFileDirectory: Directory where the audio files will be shared
+   archiveDirectory  : Directory where the audio files will be moved after processing
+   blackListedWordFile: Blacklised words which will be compared  against the transcribed data 
+   kwdServerUrl: url to kwd server e.g (http://10.32.12.90:8080/DefendApp/keywords/addKeywords)
+
+2. KwdDaemon runs as a standalone java process and keeps monitoring the the audioFileDirectory. 
+   The moniroting happens in a non-blocking fashion (NIO), and for every new file that's added to this directory, it will start processing the file.
+   
+   NOTE: there is no check currently done to see that it is an audio file. It is assumed that it will only be a .wav file
+
+3. Logic for invoking KWD request
+   if transcribed msg contains at-least 2 hits from the blacklisted words.
+
+4. Create a Google Cloud Platform (GCP) Account. 
+   https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.226969757.-1882967005.1533556602&project=propane-analogy-91114&folder&organizationId
+
+   Generate the credentials file
+
+5. The log4j file can be configured to modify logger levels 
+   ./src/main/resources/log4j.properties
+
+
+    
+HOW to Test
+==========
+1. Run using gradle -q run
+2. goto resources/audioFiles/ directory
+3. drop a wav file at the above mentioned dir
+4. if the black listed words are matched it would call the POST request the configured url
+5. it then archives the file and deletes from the audio file from audioFiles dir
+
+
+
